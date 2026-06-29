@@ -1,106 +1,20 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My PWA App</title>
+<script>
+    // ลงทะเบียน Service Worker เพื่อให้เว็บโหลดเร็ว
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js');
+        });
+    }
+
+    // เปิดแสดงแบนเนอร์ทันทีเพื่อให้คนกดโหลดแอป
+    const installBanner = document.getElementById('install-banner');
+    const btnInstall = document.getElementById('btn-install');
     
-    <!-- เชื่อมโยงไฟล์ Manifest เพื่อให้ระบบรู้ว่าเป็น PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4f46e5">
+    // แสดงแถบสีม่วงทันทีเมื่อเข้าเว็บ
+    installBanner.style.display = 'flex';
 
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f3f4f6;
-        }
-        /* แถบแจ้งเตือนติดตั้งแอป (ซ่อนไว้เริ่มต้นด้วย display: none) */
-        #install-banner {
-            display: none; 
-            background: #ebdfff; 
-            padding: 15px; 
-            justify-content: space-between; 
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        #btn-install {
-            background: #4f46e5; 
-            color: #fff; 
-            border: none; 
-            padding: 10px 20px; 
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .content {
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- แบนเนอร์ติดตั้งแอปแบบในรูปตัวอย่าง -->
-    <div id="install-banner">
-        <div>
-            <strong style="color: #1f2937;">Install My App</strong>
-            <p style="margin: 5px 0 0 0; font-size: 13px; color: #4b5563;">Add to home screen for faster access</p>
-        </div>
-        <button id="btn-install">Install</button>
-    </div>
-
-    <div class="content">
-        <h1>ยินดีต้อนรับสู่เว็บแอปพลิเคชันของฉัน</h1>
-        <p>หากเปิดด้วยมือถือ Android ระบบจะขึ้นแถบด้านบนให้ติดตั้งแอปครับ</p>
-    </div>
-
-    <script>
-        // 1. สั่งเปิดใช้งาน Service Worker (sw.js)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker ลงทะเบียนสำเร็จ!'))
-                    .catch(err => console.log('Service Worker เกิดข้อผิดพลาด: ', err));
-            });
-        }
-
-        // 2. ดักเดโค้ดเพื่อเปิดแถบปุ่มกดติดตั้ง (Custom Install Prompt)
-        let deferredPrompt;
-        const installBanner = document.getElementById('install-banner');
-        const btnInstall = document.getElementById('btn-install');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // ป้องกันไม่ให้เบราว์เซอร์เปิดป๊อปอัปอัตโนมัติซ้อนขึ้นมา
-            e.preventDefault();
-            // เก็บ Event ไว้เรียกใช้ตอนกดปุ่ม
-            deferredPrompt = e;
-            // แสดงแถบแบนเนอร์ติดตั้งของเรา
-            installBanner.style.display = 'flex';
-        });
-
-        btnInstall.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                // แสดงหน้าต่างติดตั้งของระบบ
-                deferredPrompt.prompt();
-                // รอการกดเลือกของผู้ใช้ (ว่าจะติดตั้งหรือไม่ติดตั้ง)
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`ผลการเลือกของผู้ใช้: ${outcome}`);
-                // เคลียร์ค่าและซ่อนแบนเนอร์
-                deferredPrompt = null;
-                installBanner.style.display = 'none';
-            }
-        });
-
-        // ซ่อนแบนเนอร์หากผู้ใช้ติดตั้งแอปเรียบร้อยแล้ว
-        window.addEventListener('appinstalled', () => {
-            console.log('แอปถูกติดตั้งเรียบร้อยแล้ว');
-            installBanner.style.display = 'none';
-        });
-    </script>
-</body>
-</html>
+    // เมื่อกดปุ่ม Install ให้ลิงก์ไปดาวน์โหลดไฟล์ APK จาก Google Drive โดยตรง
+    btnInstall.addEventListener('click', () => {
+        window.location.href = "https://drive.google.com/file/d/1y5gR6uavcFqMN46C2-TgEnsj37YmDFE_/view?usp=drivesdk";
+    });
+</script>
