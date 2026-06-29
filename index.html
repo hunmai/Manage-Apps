@@ -1,20 +1,62 @@
-<script>
-    // ลงทะเบียน Service Worker เพื่อให้เว็บโหลดเร็ว
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js');
-        });
-    }
-
-    // เปิดแสดงแบนเนอร์ทันทีเพื่อให้คนกดโหลดแอป
-    const installBanner = document.getElementById('install-banner');
-    const btnInstall = document.getElementById('btn-install');
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download pvpn</title>
     
-    // แสดงแถบสีม่วงทันทีเมื่อเข้าเว็บ
-    installBanner.style.display = 'flex';
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        /* แถบแบนเนอร์สีม่วงด้านบน */
+        #install-banner {
+            display: flex; 
+            background: #ebdfff; 
+            padding: 15px; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        #btn-install {
+            background: #4f46e5; 
+            color: #fff; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
 
-    // เมื่อกดปุ่ม Install ให้ลิงก์ไปดาวน์โหลดไฟล์ APK จาก Google Drive โดยตรง
-    btnInstall.addEventListener('click', () => {
-        window.location.href = "https://drive.google.com/file/d/1y5gR6uavcFqMN46C2-TgEnsj37YmDFE_/view?usp=drivesdk";
-    });
-</script>
+    <!-- แบนเนอร์แสดงปุ่มดาวน์โหลด APK -->
+    <div id="install-banner">
+        <div>
+            <strong style="color: #1f2937;">Install pvpn</strong>
+            <p style="margin: 5px 0 0 0; font-size: 13px; color: #4b5563;">Add to home screen for faster access</p>
+        </div>
+        <!-- ใช้ลิงก์ตรงสำหรับดาวน์โหลดไฟล์ APK -->
+        <a id="btn-install" href="https://drive.google.com/file/d/1y5gR6uavcFqMN46C2-TgEnsj37YmDFE_/view?usp=drivesdk">Install</a>
+    </div>
+
+    <div class="content">
+        <h1>ยินดีต้อนรับสู่แอปพลิเคชัน pvpn</h1>
+        <p>กดปุ่ม Install ด้านบนเพื่อดาวน์โหลดและติดตั้งไฟล์แอปพลิเคชัน (.apk) ลงในเครื่องของคุณ</p>
+    </div>
+
+</body>
+</html>
